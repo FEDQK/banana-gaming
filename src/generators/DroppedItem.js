@@ -8,19 +8,28 @@ export default class DroppedItemGenerator extends Phaser.Group {
     this.types = ['banana', 'bomb'];
     this.droppedItemSpeed = 150;
     this.timeCreate = 1;
+    this.iteration = 1;
     this.droppedItemTimer = this.game.time.create(false);
     this.droppedItemTimer.start();
     this.scheduleDropping();
   }
 
+  update() {
+    if (this.droppedItemTimer.seconds > this.iteration) {
+      this.timeCreate += 0.02;
+      this.droppedItemSpeed += 1;
+      this.iteration++;
+    }
+  }
+
   getPostionX(sprite) {
-    const droppedItemWidth =
+    const spriteHalfWidth =
       sprite && sprite.body && sprite.body.halfWidth
         ? sprite.body.halfWidth
         : 60;
     return this.game.rnd.between(
-      droppedItemWidth,
-      this.game.width - droppedItemWidth,
+      spriteHalfWidth,
+      this.game.width - spriteHalfWidth,
     );
   }
 
